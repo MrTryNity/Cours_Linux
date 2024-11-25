@@ -2,9 +2,15 @@
 
 
 
-## __Étape 1 : Analyse et nettoyage du serveur__
+## Étape 1 : Analyse et nettoyage du serveur
+
+
+
+
 
 1. **Lister les tâches cron pour détecter des backdoors** :
+
+
 
 [root@vbox ~]# for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l; done
 no crontab for root
@@ -28,7 +34,11 @@ no crontab for chrony
 no crontab for sshd
 */10 * * * * /tmp/.hidden_script
 
+
+
 2. **Identifier et supprimer les fichiers cachés** :
+
+
 
 [root@vbox ~]# find /tmp /var/tmp /home -type f -name ".*" -exec ls -l {} \;
 -rwxrwxrwx. 1 attacker attacker 17 Nov 24 18:11 /tmp/.hidden_script
@@ -59,7 +69,11 @@ rm: remove regular file '/tmp/.hidden_file'? yes
 -rw-------. 1 attacker attacker 3 Nov 24 18:48 /home/attacker/.bash_history
 -rw-r--r--. 1 attacker attacker 18 Nov 24 20:09 /home/attacker/.hidden_file
 
+
+
 3. **Analyser les connexions réseau actives** :
+
+
 
 [root@vbox ~]# ss -tulnp
 Netid State   Recv-Q  Send-Q   Local Address:Port   Peer Address:Port Process
@@ -72,7 +86,14 @@ tcp   LISTEN  0       128               [::]:22             [::]:*     users:(("
 
 ## __Étape 2 : Configuration avancée de LVM__
 
+
+
+
+
+
 1. **Créer un snapshot de sécurité pour `/mnt/secure_data`** :
+
+
 
 [root@vbox ~]# lvcreate --size 100M --snapshot --name secure_data_snap /dev/vg_secure/secure_data
 Logical volume "secure_data_snap" created.
@@ -153,7 +174,11 @@ Logical volume "secure_data_snap" created.
   currently set to     256
   Block device           253:0
 
+
+
 2. **Tester la restauration du snapshot** :
+
+
 
 [root@vbox ~]# echo "Fichier de test" > /mnt/secure_data/fichier_test
 [root@vbox ~]# lvcreate --size 100M --snapshot --name secure_data_snap /dev/vg_secure/secure_data
@@ -167,7 +192,11 @@ rm: remove regular file '/mnt/secure_data/fichier_test'? yes
 [root@vbox ~]# ls /mnt/secure_data
 fichier_test  lost+found  sensitive1.txt  sensitive2.txt
 
+
+
 3. **Optimiser l’espace disque** :
+
+
 
 [root@vbox ~]# lvs
   LV          VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
@@ -187,39 +216,72 @@ fichier_test  lost+found  sensitive1.txt  sensitive2.txt
 
 
 
+
+
 ## __Étape 3 : Automatisation avec un script de sauvegarde__
 
+
+
+
+
 1. **Créer un script `secure_backup.sh`** :
+
+
 
 [root@vbox ~]# nano /usr/local/bin/secure_backup.sh
 [root@vbox ~]# chmod +x /usr/local/bin/secure_backup.sh
 [root@vbox ~]#
 
+
+
 2. **Ajoutez une fonction de rotation des sauvegardes** :
+
+
 
 find "$BACKUP_DIR" -name "secure_data_*.tar.gz" -type f -mtime +7 -exec rm -f {} \;
 
+
+
 3. **Testez le script** :
+
+
 
 [root@vbox ~]# /usr/local/bin/secure_backup.sh
 tar: Removing leading `/' from member names
 [root@vbox ~]# ls /backup/secure_data_*.tar.gz
 /backup/secure_data_20241125.tar.gz
 
+
+
 4. **Automatisez avec une tâche cron** :
+
+
 
 0 3 * * * /usr/local/bin/secure_backup.sh
 
 
 
+
+
 ## __Étape 4 : Surveillance avancée avec `auditd`__
 
+
+
+
+
+
 1. **Configurer auditd pour surveiller `/etc`** :
+
+
 
 [root@vbox ~]# auditctl -w /etc -p wa -k etc_changes
 Old style watch rules are slower
 
+
+
 2. **Tester la surveillance** :
+
+
 
 [root@vbox ~]# sudo touch /etc/test_audit
 [root@vbox ~]# sudo echo "test modification" > /etc/test_audit
@@ -233,7 +295,11 @@ type=SYSCALL msg=audit(1732560759.803:204): arch=c000003e syscall=44 success=yes
 type=CONFIG_CHANGE msg=audit(1732560759.803:204): auid=0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 op=add_rule key="etc-monitoring" list=4 res=1
 [root@vbox ~]#
 
+
+
 3. **Analyser les événements** :
+
+
 
 [root@vbox ~]# sudo ausearch -k etc-monitoring
 
