@@ -331,3 +331,61 @@ type=SYSCALL msg=audit(1732560915.534:264): arch=c000003e syscall=44 success=yes
 type=CONFIG_CHANGE msg=audit(1732560915.534:264): auid=0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 op=add_rule key="etc-monitoring" list=4 res=0
 [root@vbox ~]#
 
+
+
+
+
+## Étape 5 : Sécurisation avec Firewalld
+
+
+
+
+
+1. **Configurer un pare-feu pour SSH et HTTP/HTTPS uniquement** :
+
+[root@vbox ~]# sudo firewall-cmd --list-all
+public (active)
+  target: DROP
+  icmp-block-inversion: no
+  interfaces: enp0s3 enp0s8
+  sources:
+  services: cockpit dhcpv6-client http https ssh
+  ports: 2222/tcp
+  protocols:
+  forward: yes
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+[root@vbox ~]#
+
+2. **Bloquer des IP suspectes** :
+
+[root@vbox ~]# sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.100" drop' --permanent
+success
+[root@vbox ~]# sudo firewall-cmd --list-rich-rules
+
+[root@vbox ~]# sudo firewall-cmd --reload
+success
+[root@vbox ~]#
+
+3. **Restreindre SSH à un sous-réseau spécifique** :
+
+[root@vbox ~]# sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.100" drop' --permanent
+success
+[root@vbox ~]# sudo firewall-cmd --list-rich-rules
+
+[root@vbox ~]# sudo firewall-cmd --reload
+success
+[root@vbox ~]# sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept' --permanent
+success
+[root@vbox ~]# sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" service name="ssh" drop' --permanent
+success
+[root@vbox ~]# sudo firewall-cmd --reload
+success
+[root@vbox ~]#
+[root@vbox ~]# sudo firewall-cmd --list-rich-rules
+rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept
+rule family="ipv4" source address="192.168.1.100" drop
+rule family="ipv4" service name="ssh" drop
