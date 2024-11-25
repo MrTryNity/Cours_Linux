@@ -88,7 +88,7 @@ Logical volume "secure_data_snap" created.
   LV snapshot status     source of
                          secure_data_snap [active]
   LV Status              available
-  # open                 1
+  open                 1
   LV Size                500.00 MiB
   Current LE             125
   Segments               1
@@ -106,7 +106,7 @@ Logical volume "secure_data_snap" created.
   LV Creation host, time vbox, 2024-11-25 19:15:13 +0100
   LV snapshot status     active destination for secure_data
   LV Status              available
-  # open                 0
+  open                 0
   LV Size                500.00 MiB
   Current LE             125
   COW-table size         100.00 MiB
@@ -127,7 +127,7 @@ Logical volume "secure_data_snap" created.
   LV Write Access        read/write
   LV Creation host, time vbox, 2024-11-24 17:42:22 +0100
   LV Status              available
-  # open                 2
+  open                 2
   LV Size                512.00 MiB
   Current LE             128
   Segments               1
@@ -144,7 +144,7 @@ Logical volume "secure_data_snap" created.
   LV Write Access        read/write
   LV Creation host, time vbox, 2024-11-24 17:42:22 +0100
   LV Status              available
-  # open                 1
+  open                 1
   LV Size                <3.50 GiB
   Current LE             895
   Segments               1
