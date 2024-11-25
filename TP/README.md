@@ -1,8 +1,8 @@
-# TP Avancé : "Mission Ultime : Sauvegarde et Sécurisation"
+# __TP Avancé : "Mission Ultime : Sauvegarde et Sécurisation"__
 
 
 
-## Étape 1 : Analyse et nettoyage du serveur
+## __Étape 1 : Analyse et nettoyage du serveur__
 
 1. **Lister les tâches cron pour détecter des backdoors** :
 
@@ -70,7 +70,7 @@ tcp   LISTEN  0       128               [::]:22             [::]:*     users:(("
 
 
 
-## Étape 2 : Configuration avancée de LVM
+## __Étape 2 : Configuration avancée de LVM__
 
 1. **Créer un snapshot de sécurité pour `/mnt/secure_data`** :
 
@@ -187,7 +187,7 @@ fichier_test  lost+found  sensitive1.txt  sensitive2.txt
 
 
 
-## Étape 3 : Automatisation avec un script de sauvegarde
+## __Étape 3 : Automatisation avec un script de sauvegarde__
 
 1. **Créer un script `secure_backup.sh`** :
 
@@ -212,7 +212,7 @@ tar: Removing leading `/' from member names
 
 
 
-## Étape 4 : Surveillance avancée avec `auditd`
+## __Étape 4 : Surveillance avancée avec `auditd`__
 
 1. **Configurer auditd pour surveiller `/etc`** :
 
