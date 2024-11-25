@@ -94,7 +94,7 @@ Logical volume "secure_data_snap" created.
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  currently set to     256
   Block device           253:2
 
   --- Logical volume ---
@@ -116,7 +116,7 @@ Logical volume "secure_data_snap" created.
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  currently set to     256
   Block device           253:5
 
   --- Logical volume ---
@@ -133,7 +133,7 @@ Logical volume "secure_data_snap" created.
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  currently set to     256
   Block device           253:1
 
   --- Logical volume ---
@@ -150,7 +150,7 @@ Logical volume "secure_data_snap" created.
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  currently set to     256
   Block device           253:0
 
 2. **Tester la restauration du snapshot** :
@@ -225,7 +225,7 @@ Old style watch rules are slower
 [root@vbox ~]# sudo echo "test modification" > /etc/test_audit
 [root@vbox ~]# sudo rm /etc/test_audit
 [root@vbox ~]# sudo ausearch -k etc-monitoring
-----
+
 time->Mon Nov 25 19:52:39 2024
 type=PROCTITLE msg=audit(1732560759.803:204): proctitle=617564697463746C002D77002F657463002D70007761002D6B006574632D6D6F6E69746F72696E67
 type=SOCKADDR msg=audit(1732560759.803:204): saddr=100000000000000000000000
@@ -236,13 +236,13 @@ type=CONFIG_CHANGE msg=audit(1732560759.803:204): auid=0 ses=3 subj=unconfined_u
 3. **Analyser les événements** :
 
 [root@vbox ~]# sudo ausearch -k etc-monitoring
-----
+
 time->Mon Nov 25 19:52:39 2024
 type=PROCTITLE msg=audit(1732560759.803:204): proctitle=617564697463746C002D77002F657463002D70007761002D6B006574632D6D6F6E69746F72696E67
 type=SOCKADDR msg=audit(1732560759.803:204): saddr=100000000000000000000000
 type=SYSCALL msg=audit(1732560759.803:204): arch=c000003e syscall=44 success=yes exit=1076 a0=4 a1=7fff20211d20 a2=434 a3=0 items=0 ppid=2014 pid=2016 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=3 comm="auditctl" exe="/usr/sbin/auditctl" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
 type=CONFIG_CHANGE msg=audit(1732560759.803:204): auid=0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 op=add_rule key="etc-monitoring" list=4 res=1
-----
+
 time->Mon Nov 25 19:55:15 2024
 type=PROCTITLE msg=audit(1732560915.534:264): proctitle=617564697463746C002D77002F657463002D70007761002D6B006574632D6D6F6E69746F72696E67
 type=SOCKADDR msg=audit(1732560915.534:264): saddr=100000000000000000000000
@@ -251,13 +251,13 @@ type=CONFIG_CHANGE msg=audit(1732560915.534:264): auid=0 ses=3 subj=unconfined_u
 
 [root@vbox ~]# sudo ausearch -k etc-monitoring > /var/log/audit_etc.log
 [root@vbox ~]# cat /var/log/audit_etc.log
-----
+
 time->Mon Nov 25 19:52:39 2024
 type=PROCTITLE msg=audit(1732560759.803:204): proctitle=617564697463746C002D77002F657463002D70007761002D6B006574632D6D6F6E69746F72696E67
 type=SOCKADDR msg=audit(1732560759.803:204): saddr=100000000000000000000000
 type=SYSCALL msg=audit(1732560759.803:204): arch=c000003e syscall=44 success=yes exit=1076 a0=4 a1=7fff20211d20 a2=434 a3=0 items=0 ppid=2014 pid=2016 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=3 comm="auditctl" exe="/usr/sbin/auditctl" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
 type=CONFIG_CHANGE msg=audit(1732560759.803:204): auid=0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 op=add_rule key="etc-monitoring" list=4 res=1
-----
+
 time->Mon Nov 25 19:55:15 2024
 type=PROCTITLE msg=audit(1732560915.534:264): proctitle=617564697463746C002D77002F657463002D70007761002D6B006574632D6D6F6E69746F72696E67
 type=SOCKADDR msg=audit(1732560915.534:264): saddr=100000000000000000000000
